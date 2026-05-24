@@ -524,7 +524,7 @@ function openUserModal(user = null) {
         </label>
         <label>
           البريد الإلكتروني
-          <input name="email" type="email" value="${escapeHtml(user?.email || "")}" required />
+          <input name="email" type="text" value="${escapeHtml(user?.email || "")}" required />
         </label>
         <label>
           كلمة المرور
