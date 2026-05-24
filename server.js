@@ -865,46 +865,26 @@ async function handleApi(req, res, parsedUrl) {
   if (route === "/login" && req.method === "POST") {
     const body = await readJson(req);
 
-    if (String(body.email || "").trim().toLowerCase() === "admin" && String(body.password || "") === "123") {
-      const adminUser = {
-        id: "admin",
-        name: "Admin",
-        email: "admin",
-        role: "admin",
-        active: true
-      };
-      const token = createSession(store, adminUser.id);
-      await saveStore(store);
-      setCookie(res, SESSION_COOKIE, token, {
-        httpOnly: true,
-        sameSite: "Lax",
-        secure: isSecureRequest(req),
-        path: "/",
-        maxAge: SESSION_TTL_SECONDS
+    if (
+      String(body.email || "").trim().toLowerCase() === "admin" &&
+      String(body.password || "") === "123"
+    ) {
+      sendJson(res, 200, {
+        user: {
+          id: "admin",
+          name: "Admin",
+          email: "admin",
+          role: "admin",
+          active: true
+        }
       });
-      sendJson(res, 200, { user: publicUser(adminUser) });
       return;
     }
 
-    const user = store.users.find(
-      (candidate) => candidate.email.toLowerCase() === String(body.email || "").toLowerCase() && candidate.active
-    );
-
-    if (!user || !verifyPassword(String(body.password || ""), user.passwordHash)) {
-      sendJson(res, 401, { error: "invalid_login", message: "اسم المستخدم أو كلمة المرور غير صحيحة." });
-      return;
-    }
-
-    const token = createSession(store, user.id);
-    await saveStore(store);
-    setCookie(res, SESSION_COOKIE, token, {
-      httpOnly: true,
-      sameSite: "Lax",
-      secure: isSecureRequest(req),
-      path: "/",
-      maxAge: SESSION_TTL_SECONDS
+    sendJson(res, 401, {
+      error: "invalid_login",
+      message: "اسم المستخدم أو كلمة المرور غير صحيحة."
     });
-    sendJson(res, 200, { user: publicUser(user) });
     return;
   }
 
