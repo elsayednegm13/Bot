@@ -8,8 +8,8 @@
       "role": "admin",
       "active": true,
       "passwordHash": {
-        "salt": "01e62a1d20fcbefcab0f05a0eb8e08fd",
-        "hash": "4764e7e24d870947283a596ea4ddf2511b872d70c731ad26ec2f5bcc9c29c9d1"
+        "salt": "46a05db317b86eb3abe1f2f7f7d2a2e9",
+        "hash": "68b3fac468660d224b1d91b775ae672a84283fd309386eb45c578f59411fc35a"
       },
       "createdAt": "2026-05-24T17:24:09.518Z",
       "updatedAt": "2026-05-24T17:26:13.716Z"

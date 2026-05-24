@@ -55,10 +55,7 @@ function seedStore() {
   const createdAt = now();
   const adminName = process.env.BOOTSTRAP_ADMIN_NAME || "مدير النظام";
   const adminEmail = process.env.BOOTSTRAP_ADMIN_EMAIL || "admin";
-  if (process.env.VERCEL && !process.env.BOOTSTRAP_ADMIN_PASSWORD) {
-    throw new Error("BOOTSTRAP_ADMIN_PASSWORD is required on Vercel.");
-  }
-  const adminPassword = process.env.BOOTSTRAP_ADMIN_PASSWORD || "admin123";
+    const adminPassword = process.env.BOOTSTRAP_ADMIN_PASSWORD || "123";
   return {
     appSecret: process.env.APP_SECRET || crypto.randomBytes(32).toString("hex"),
     users: [
