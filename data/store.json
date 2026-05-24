@@ -2,14 +2,14 @@
   "appSecret": "00d551ce98d05afbb82260b9dfd6aa4b4636f24dd810a76133bda50a76a41123",
   "users": [
     {
-      "id": "user_6c09c60ff8b44b7ca5",
-      "name": "مدير النظام",
+      "id": "admin",
+      "name": "Admin",
       "email": "admin",
       "role": "admin",
       "active": true,
       "passwordHash": {
-        "salt": "46a05db317b86eb3abe1f2f7f7d2a2e9",
-        "hash": "68b3fac468660d224b1d91b775ae672a84283fd309386eb45c578f59411fc35a"
+        "salt": "5ac3bfc54b31cb9d1400babeeb024775",
+        "hash": "fb9c637a9a7fe978f3127bdec6920a6498d83cf01b4bc2ce71e7ec4a66e1fe93"
       },
       "createdAt": "2026-05-24T17:24:09.518Z",
       "updatedAt": "2026-05-24T17:26:13.716Z"
