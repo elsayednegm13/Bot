@@ -1,0 +1,21 @@
+{
+  "name": "whatsapp-bot-dashboard",
+  "version": "1.0.0",
+  "description": "Arabic dashboard and backend for website and WhatsApp bot auto replies.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "build": "node -e \"console.log('No build step required for this Node/Vercel project')\""
+  },
+  "keywords": [
+    "whatsapp",
+    "bot",
+    "dashboard",
+    "arabic"
+  ],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": "18.x"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "rewrites": [
+    {
+      "source": "/widget.js",
+      "destination": "/api/widget.js"
+    }
+  ],
+  "functions": {
+    "api/**/*.js": {
+      "includeFiles": "public/**"
+    }
+  }
+}

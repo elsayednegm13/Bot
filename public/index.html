@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>لوحة تحكم بوت الرسائل</title>
+  <meta name="description" content="لوحة تحكم متقدمة لإدارة بوت الرسائل والردود التلقائية عبر واتساب والموقع" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="stylesheet" href="/app.css" />
+</head>
+<body>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <section id="loginView" class="login-shell">
+    <div class="login-panel">
+      <div class="brand-mark">W</div>
+      <h1>تسجيل الدخول</h1>
+      <p>لوحة إدارة الرسائل والردود التلقائية.</p>
+      <form id="loginForm" class="stack">
+        <label>
+          البريد الإلكتروني
+          <input name="email" type="email" autocomplete="email" placeholder="example@mail.com" required />
+        </label>
+        <label>
+          كلمة المرور
+          <input name="password" type="password" autocomplete="current-password" placeholder="••••••••" required />
+        </label>
+        <button class="btn primary" type="submit">دخول</button>
+      </form>
+    </div>
+  </section>
+
+  <div id="appView" class="app-shell hidden">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-mark">W</div>
+        <div>
+          <strong>Bot Dashboard</strong>
+          <span>رسائل ومحادثات</span>
+        </div>
+      </div>
+
+      <nav class="nav-list" aria-label="أقسام لوحة التحكم">
+        <button class="nav-btn active" data-tab="overview" type="button">⬡ الرئيسية</button>
+        <button class="nav-btn" data-tab="conversations" type="button">◈ المحادثات</button>
+        <button class="nav-btn" data-tab="replies" type="button">⟐ الردود التلقائية</button>
+        <button class="nav-btn admin-only" data-tab="users" type="button">◉ المستخدمون</button>
+        <button class="nav-btn" data-tab="settings" type="button">⚙ الإعدادات</button>
+        <button class="nav-btn" data-tab="install" type="button">⟨/⟩ كود الربط</button>
+      </nav>
+
+      <div class="sidebar-status">
+        <span class="pulse"></span>
+        <div>
+          <strong id="botStatusText">Bot Active</strong>
+          <small>جاهز للرد من الموقع أو واتساب</small>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button id="menuBtn" class="icon-btn mobile-only" type="button" aria-label="فتح القائمة">☰</button>
+        <div>
+          <h1 id="pageTitle">الرئيسية</h1>
+          <p id="pageSubtitle"></p>
+        </div>
+        <div class="topbar-actions">
+          <span id="currentUser" class="user-chip"></span>
+          <button id="themeToggleBtn" class="icon-btn" type="button" aria-label="تبديل المظهر">🌓</button>
+          <button id="refreshBtn" class="btn secondary" type="button">⟳ تحديث</button>
+          <button id="logoutBtn" class="btn danger" type="button">خروج</button>
+        </div>
+      </header>
+
+      <section id="overviewScreen" class="screen">
+        <div id="statsGrid" class="stats-grid"></div>
+        <div class="content-grid">
+          <section class="panel wide">
+            <div class="panel-head">
+              <h2>آخر المحادثات</h2>
+              <button class="btn ghost" data-tab-link="conversations" type="button">عرض الكل →</button>
+            </div>
+            <div id="recentConversations" class="conversation-stack"></div>
+          </section>
+          <section class="panel">
+            <div class="panel-head">
+              <h2>اختبار سريع</h2>
+            </div>
+            <form id="quickTestForm" class="stack">
+              <label>
+                رسالة العميل
+                <textarea name="message" rows="4" placeholder="اكتب رسالة العميل هنا..."></textarea>
+              </label>
+              <button class="btn primary" type="submit">⚡ تشغيل المحاكاة</button>
+              <output id="quickTestOutput" class="bot-output"></output>
+            </form>
+          </section>
+        </div>
+      </section>
+
+      <section id="conversationsScreen" class="screen hidden">
+        <div class="chat-layout">
+          <section class="panel conversation-list-panel">
+            <div class="panel-head">
+              <h2>المحادثات</h2>
+              <button class="btn ghost" id="reloadConversationsBtn" type="button">⟳ تحديث</button>
+            </div>
+            <div id="conversationList" class="conversation-list"></div>
+          </section>
+          <section id="conversationDetail" class="panel chat-panel"></section>
+        </div>
+      </section>
+
+      <section id="repliesScreen" class="screen hidden">
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>الردود التلقائية</h2>
+            </div>
+            <button class="btn primary" id="newRuleBtn" type="button">+ إضافة رد</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>الاسم</th>
+                  <th>الكلمات</th>
+                  <th>الرد</th>
+                  <th>الأولوية</th>
+                  <th>الحالة</th>
+                  <th>إجراء</th>
+                </tr>
+              </thead>
+              <tbody id="rulesTable"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+
+      <section id="usersScreen" class="screen hidden">
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>المستخدمون</h2>
+            </div>
+            <button class="btn primary" id="newUserBtn" type="button">+ إضافة مستخدم</button>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>الاسم</th>
+                  <th>البريد</th>
+                  <th>الدور</th>
+                  <th>الحالة</th>
+                  <th>إجراء</th>
+                </tr>
+              </thead>
+              <tbody id="usersTable"></tbody>
+            </table>
+          </div>
+        </section>
+      </section>
+
+      <section id="settingsScreen" class="screen hidden">
+        <section class="panel">
+          <div class="panel-head">
+            <div>
+              <h2>الإعدادات</h2>
+            </div>
+          </div>
+          <form id="settingsForm" class="settings-grid">
+            <label>
+              اسم النشاط
+              <input name="businessName" type="text" />
+            </label>
+            <label>
+              Widget Site Key
+              <input name="widgetSiteKey" type="text" />
+            </label>
+            <label>
+              Verify Token
+              <input name="verifyToken" type="text" />
+            </label>
+            <label>
+              Phone Number ID
+              <input name="phoneNumberId" type="text" />
+            </label>
+            <label>
+              WABA ID
+              <input name="wabaId" type="text" />
+            </label>
+            <label>
+              Graph Version
+              <input name="graphVersion" type="text" placeholder="v25.0" />
+            </label>
+            <label class="wide-field">
+              Access Token
+              <input name="whatsappAccessToken" type="password" placeholder="Access Token" />
+              <small id="maskedToken"></small>
+            </label>
+            <label class="wide-field">
+              الرد الافتراضي
+              <textarea name="fallbackReply" rows="4"></textarea>
+            </label>
+            <label class="toggle-row">
+              <input name="botEnabled" type="checkbox" />
+              تشغيل البوت
+            </label>
+            <button class="btn primary wide-field" type="submit">حفظ الإعدادات</button>
+          </form>
+        </section>
+      </section>
+
+      <section id="installScreen" class="screen hidden">
+        <div class="content-grid">
+          <section class="panel wide">
+            <div class="panel-head">
+              <div>
+                <h2>كود الربط</h2>
+              </div>
+              <button id="copySnippetBtn" class="btn secondary" type="button">📋 نسخ</button>
+            </div>
+            <pre id="installSnippet" class="code-box"></pre>
+          </section>
+          <section class="panel">
+            <div class="panel-head">
+              <h2>Webhook واتساب</h2>
+            </div>
+            <div class="info-list">
+              <div>
+                <span>Callback URL</span>
+                <code id="webhookUrl"></code>
+              </div>
+              <div>
+                <span>Verify Token</span>
+                <code id="installVerifyToken"></code>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="modal" class="modal hidden" role="dialog" aria-modal="true"></div>
+  <script src="/app.js"></script>
+</body>
+</html>

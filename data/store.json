@@ -1,0 +1,137 @@
+{
+  "appSecret": "00d551ce98d05afbb82260b9dfd6aa4b4636f24dd810a76133bda50a76a41123",
+  "users": [
+    {
+      "id": "user_6c09c60ff8b44b7ca5",
+      "name": "مدير النظام",
+      "email": "elsayednegm@gmail.com",
+      "role": "admin",
+      "active": true,
+      "passwordHash": {
+        "salt": "01e62a1d20fcbefcab0f05a0eb8e08fd",
+        "hash": "4764e7e24d870947283a596ea4ddf2511b872d70c731ad26ec2f5bcc9c29c9d1"
+      },
+      "createdAt": "2026-05-24T17:24:09.518Z",
+      "updatedAt": "2026-05-24T17:26:13.716Z"
+    }
+  ],
+  "rules": [
+    {
+      "id": "rule_c28aab5a3632c9a768",
+      "name": "استفسار الأسعار",
+      "keywords": [
+        "السعر",
+        "سعر",
+        "تكلفة",
+        "بكام",
+        "price"
+      ],
+      "reply": "أهلا بك. الأسعار بتختلف حسب الخدمة المطلوبة. تحب تعرف عروض المواقع، المتاجر، ولا الهوية البصرية؟",
+      "active": true,
+      "priority": 30,
+      "matchMode": "contains",
+      "createdAt": "2026-05-24T17:24:09.518Z",
+      "updatedAt": "2026-05-24T17:24:09.518Z"
+    },
+    {
+      "id": "rule_372eb13a750e725e09",
+      "name": "مواقع إلكترونية",
+      "keywords": [
+        "موقع",
+        "ويب سايت",
+        "website",
+        "landing"
+      ],
+      "reply": "ممتاز. عندنا باقات للمواقع التعريفية والمتاجر الإلكترونية والـ Landing Pages. ابعتلي نوع الموقع وعدد الصفحات المطلوب.",
+      "active": true,
+      "priority": 20,
+      "matchMode": "contains",
+      "createdAt": "2026-05-24T17:24:09.518Z",
+      "updatedAt": "2026-05-24T17:24:09.518Z"
+    },
+    {
+      "id": "rule_9bc42ff604fad025be",
+      "name": "ترحيب",
+      "keywords": [
+        "السلام",
+        "مرحبا",
+        "اهلا",
+        "أهلا",
+        "hello",
+        "hi"
+      ],
+      "reply": "أهلا وسهلا بك. قولّي محتاج إيه وأنا أساعدك فورًا.",
+      "active": true,
+      "priority": 10,
+      "matchMode": "contains",
+      "createdAt": "2026-05-24T17:24:09.518Z",
+      "updatedAt": "2026-05-24T17:24:09.518Z"
+    }
+  ],
+  "conversations": [
+    {
+      "id": "conv_1fd0f7b24e62854760",
+      "channel": "widget",
+      "externalId": "dashboard_test_1779643503940",
+      "siteKey": "27fee6c5411d1e51",
+      "visitorName": "اختبار لوحة التحكم",
+      "visitorUrl": "http://localhost:3000/",
+      "phone": "",
+      "status": "human",
+      "assignedTo": "",
+      "messages": [
+        {
+          "id": "msg_81d62da0b6056b2a86",
+          "from": "user",
+          "text": "1",
+          "meta": {
+            "source": "widget"
+          },
+          "createdAt": "2026-05-24T17:25:03.941Z"
+        },
+        {
+          "id": "msg_e2771df4a047cc5a88",
+          "from": "bot",
+          "text": "وصلت رسالتك. من فضلك اكتب نوع الخدمة المطلوبة أو كلمة السعر لعرض الباقات.",
+          "meta": {
+            "matchedRuleId": null
+          },
+          "createdAt": "2026-05-24T17:25:03.942Z"
+        },
+        {
+          "id": "msg_3e400192e42b38a9c6",
+          "from": "agent",
+          "text": "اهلا وسهلا بحضرتك",
+          "meta": {
+            "userId": "user_6c09c60ff8b44b7ca5"
+          },
+          "createdAt": "2026-05-24T17:25:26.713Z"
+        },
+        {
+          "id": "msg_c7bbd61582bf82bdaf",
+          "from": "agent",
+          "text": "اهلا",
+          "meta": {
+            "userId": "user_6c09c60ff8b44b7ca5"
+          },
+          "createdAt": "2026-05-24T18:00:52.833Z"
+        }
+      ],
+      "createdAt": "2026-05-24T17:25:03.941Z",
+      "updatedAt": "2026-05-24T18:00:52.833Z"
+    }
+  ],
+  "settings": {
+    "businessName": "WhatsApp Bot",
+    "botEnabled": true,
+    "fallbackReply": "وصلت رسالتك. من فضلك اكتب نوع الخدمة المطلوبة أو كلمة السعر لعرض الباقات.",
+    "widgetSiteKey": "27fee6c5411d1e51",
+    "verifyToken": "change_me_verify_token",
+    "phoneNumberId": "",
+    "wabaId": "",
+    "whatsappAccessToken": "",
+    "graphVersion": "v25.0"
+  },
+  "createdAt": "2026-05-24T17:24:09.518Z",
+  "updatedAt": "2026-05-24T18:00:52.833Z"
+}
