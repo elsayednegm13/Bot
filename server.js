@@ -54,11 +54,11 @@ function verifyPassword(password, passwordHash) {
 function seedStore() {
   const createdAt = now();
   const adminName = process.env.BOOTSTRAP_ADMIN_NAME || "مدير النظام";
-  const adminEmail = process.env.BOOTSTRAP_ADMIN_EMAIL || "admin@example.com";
+  const adminEmail = process.env.BOOTSTRAP_ADMIN_EMAIL || "admin";
   if (process.env.VERCEL && !process.env.BOOTSTRAP_ADMIN_PASSWORD) {
     throw new Error("BOOTSTRAP_ADMIN_PASSWORD is required on Vercel.");
   }
-  const adminPassword = process.env.BOOTSTRAP_ADMIN_PASSWORD || "admin123456";
+  const adminPassword = process.env.BOOTSTRAP_ADMIN_PASSWORD || "admin123";
   return {
     appSecret: process.env.APP_SECRET || crypto.randomBytes(32).toString("hex"),
     users: [
@@ -941,8 +941,8 @@ async function handleApi(req, res, parsedUrl) {
       `WHATSAPP_BUSINESS_ACCOUNT_ID=${s.wabaId || ""}`,
       `WHATSAPP_GRAPH_VERSION=${s.graphVersion || "v25.0"}`,
       `BOOTSTRAP_ADMIN_NAME=${process.env.BOOTSTRAP_ADMIN_NAME || "Admin"}`,
-      `BOOTSTRAP_ADMIN_EMAIL=${process.env.BOOTSTRAP_ADMIN_EMAIL || "admin@example.com"}`,
-      `BOOTSTRAP_ADMIN_PASSWORD=${process.env.BOOTSTRAP_ADMIN_PASSWORD || "123456"}`,
+      `BOOTSTRAP_ADMIN_EMAIL=${process.env.BOOTSTRAP_ADMIN_EMAIL || "admin"}`,
+      `BOOTSTRAP_ADMIN_PASSWORD=${process.env.BOOTSTRAP_ADMIN_PASSWORD || "123"}`,
       `APP_SECRET=${process.env.APP_SECRET || store.appSecret || ""}`,
       "VERCEL=1"
     ].join("\n");

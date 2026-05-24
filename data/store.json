@@ -4,7 +4,7 @@
     {
       "id": "user_6c09c60ff8b44b7ca5",
       "name": "مدير النظام",
-      "email": "elsayednegm@gmail.com",
+      "email": "admin",
       "role": "admin",
       "active": true,
       "passwordHash": {

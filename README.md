@@ -17,8 +17,8 @@ http://localhost:3000
 بيانات الدخول الافتراضية:
 
 ```text
-Email: admin@example.com
-Password: admin123456
+Email: admin
+Password: admin123
 ```
 
 يفضل تغيير كلمة المرور من صفحة المستخدمين بعد أول دخول. يمكن تغيير كلمة المرور الافتراضية قبل أول تشغيل عبر:

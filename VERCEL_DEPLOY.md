@@ -20,7 +20,7 @@ Add these variables in Vercel > Settings > Environment Variables:
 ```env
 BOOTSTRAP_ADMIN_NAME=Elsyed
 BOOTSTRAP_ADMIN_EMAIL=elsyednegm@gmail.com
-BOOTSTRAP_ADMIN_PASSWORD=123456
+BOOTSTRAP_ADMIN_PASSWORD=123
 APP_SECRET=change_this_to_a_long_random_secret
 STORE_KEY=whatsapp_bot_dashboard_store
 STORE_DIR=./data
