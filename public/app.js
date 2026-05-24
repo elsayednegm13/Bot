@@ -587,6 +587,11 @@ async function renderSettings() {
   $("#maskedToken").textContent = state.settings.whatsappAccessTokenMasked
     ? `Access Token: ${state.settings.whatsappAccessTokenMasked}`
     : "Access Token غير محفوظ.";
+
+  const exportBtn = $("#exportEnvBtn");
+  if (exportBtn) {
+    exportBtn.href = "/api/settings/env";
+  }
 }
 
 async function saveSettings(event) {

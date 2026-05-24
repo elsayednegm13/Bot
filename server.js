@@ -163,11 +163,17 @@ function normalizeStore(store) {
   store.settings.businessName ||= "WhatsApp Bot";
   store.settings.fallbackReply ||= "وصلت رسالتك. من فضلك وضح طلبك أكثر.";
   store.settings.widgetSiteKey ||= crypto.randomBytes(8).toString("hex");
-  store.settings.verifyToken = process.env.WHATSAPP_VERIFY_TOKEN || store.settings.verifyToken || "my_verify_token";
-  store.settings.phoneNumberId = process.env.WHATSAPP_PHONE_NUMBER_ID || store.settings.phoneNumberId || "";
-  store.settings.wabaId = process.env.WHATSAPP_BUSINESS_ACCOUNT_ID || store.settings.wabaId || "";
-  store.settings.whatsappAccessToken = process.env.WHATSAPP_ACCESS_TOKEN || store.settings.whatsappAccessToken || "";
-  store.settings.graphVersion = process.env.WHATSAPP_GRAPH_VERSION || store.settings.graphVersion || "v25.0";
+
+  // Important:
+  // Environment variables are used only as first-time defaults.
+  // After saving from the dashboard settings screen, the stored values
+  // remain the source of truth so the fields show exactly what was entered.
+  store.settings.verifyToken ||= process.env.WHATSAPP_VERIFY_TOKEN || "my_verify_token";
+  store.settings.phoneNumberId ||= process.env.WHATSAPP_PHONE_NUMBER_ID || "";
+  store.settings.wabaId ||= process.env.WHATSAPP_BUSINESS_ACCOUNT_ID || "";
+  store.settings.whatsappAccessToken ||= process.env.WHATSAPP_ACCESS_TOKEN || "";
+  store.settings.graphVersion ||= process.env.WHATSAPP_GRAPH_VERSION || "v25.0";
+
   store.appSecret ||= process.env.APP_SECRET || crypto.randomBytes(32).toString("hex");
   return store;
 }
@@ -919,6 +925,33 @@ async function handleApi(req, res, parsedUrl) {
       sendJson(res, 200, { settings: publicSettings(store.settings) });
       return;
     }
+  }
+
+  if (route === "/settings/env" && req.method === "GET") {
+    if (!requireAdmin(currentUser, res)) return;
+    const s = store.settings || {};
+    const envText = [
+      "NODE_ENV=production",
+      "PORT=3000",
+      `MONGODB_URI=${process.env.MONGODB_URI || ""}`,
+      `MONGODB_COLLECTION=${process.env.MONGODB_COLLECTION || "stores"}`,
+      `WHATSAPP_VERIFY_TOKEN=${s.verifyToken || ""}`,
+      `WHATSAPP_ACCESS_TOKEN=${s.whatsappAccessToken || ""}`,
+      `WHATSAPP_PHONE_NUMBER_ID=${s.phoneNumberId || ""}`,
+      `WHATSAPP_BUSINESS_ACCOUNT_ID=${s.wabaId || ""}`,
+      `WHATSAPP_GRAPH_VERSION=${s.graphVersion || "v25.0"}`,
+      `BOOTSTRAP_ADMIN_NAME=${process.env.BOOTSTRAP_ADMIN_NAME || "Admin"}`,
+      `BOOTSTRAP_ADMIN_EMAIL=${process.env.BOOTSTRAP_ADMIN_EMAIL || "admin@example.com"}`,
+      `BOOTSTRAP_ADMIN_PASSWORD=${process.env.BOOTSTRAP_ADMIN_PASSWORD || "123456"}`,
+      `APP_SECRET=${process.env.APP_SECRET || store.appSecret || ""}`,
+      "VERCEL=1"
+    ].join("\n");
+    res.writeHead(200, {
+      "Content-Type": "text/plain; charset=utf-8",
+      "Content-Disposition": "attachment; filename=\"dashboard-settings.env\""
+    });
+    res.end(envText);
+    return;
   }
 
   if (route === "/replies" && req.method === "GET") {
