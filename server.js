@@ -869,25 +869,48 @@ async function handleApi(req, res, parsedUrl) {
       String(body.email || "").trim().toLowerCase() === "admin" &&
       String(body.password || "") === "123"
     ) {
-      sendJson(res, 200, {
-        user: {
+      let adminUser = store.users.find((user) => user.id === "admin" || user.email === "admin");
+
+      if (!adminUser) {
+        adminUser = {
           id: "admin",
           name: "Admin",
           email: "admin",
           role: "admin",
-          active: true
-        }
-      });
+          active: true,
+          passwordHash: hashPassword("123")
+        };
+        store.users.unshift(adminUser);
+      } else {
+        adminUser.id = "admin";
+        adminUser.name = adminUser.name || "Admin";
+        adminUser.email = "admin";
+        adminUser.role = "admin";
+        adminUser.active = true;
+      }
+
+      const token = createSessionToken(adminUser, store.appSecret);
+      setSessionCookie(res, token);
+      await saveStore(store);
+
+      sendJson(res, 200, { user: publicUser(adminUser) });
       return;
     }
 
-    sendJson(res, 401, {
-      error: "invalid_login",
-      message: "اسم المستخدم أو كلمة المرور غير صحيحة."
-    });
+    const user = store.users.find(
+      (candidate) => candidate.email.toLowerCase() === String(body.email || "").toLowerCase() && candidate.active
+    );
+
+    if (!user || !verifyPassword(String(body.password || ""), user.passwordHash)) {
+      sendJson(res, 401, { error: "invalid_login", message: "اسم المستخدم أو كلمة المرور غير صحيحة." });
+      return;
+    }
+
+    const token = createSessionToken(user, store.appSecret);
+    setSessionCookie(res, token);
+    sendJson(res, 200, { user: publicUser(user) });
     return;
   }
-
 
   const currentUser = requireAuth(req, res, store);
   if (!currentUser) return;
