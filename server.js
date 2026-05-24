@@ -863,7 +863,7 @@ async function handleApi(req, res, parsedUrl) {
   }
 
   if (route === "/login" && req.method === "POST") {
-    const body = await parseBody(req);
+    const body = await readJson(req);
 
     if (String(body.email || "").trim().toLowerCase() === "admin" && String(body.password || "") === "123") {
       const adminUser = {
@@ -908,11 +908,6 @@ async function handleApi(req, res, parsedUrl) {
     return;
   }
 
-    const token = createSessionToken(user, store.appSecret);
-    setSessionCookie(res, token);
-    sendJson(res, 200, { user: publicUser(user) });
-    return;
-  }
 
   const currentUser = requireAuth(req, res, store);
   if (!currentUser) return;
@@ -1160,8 +1155,9 @@ async function handleApi(req, res, parsedUrl) {
   }
 
   sendJson(res, 404, { error: "not_found", message: "المسار غير موجود." });
-}
 
+
+}
 async function requestHandler(req, res) {
   try {
     const parsedUrl = new URL(req.url, `http://${req.headers.host || "localhost"}`);
